@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <limits.h>
+void printMinMaxSequence(int arr[], int size) {
+    int min = INT_MAX;  
+    int max = INT_MIN;  
+    printf("Minimum and Maximum value sequence for the given list:\n");
+    for (int i = 0; i < size; i++) {
+        if (arr[i] < min)
+            min = arr[i];
+        if (arr[i] > max)
+            max = arr[i];
+        printf("Minimum value sequence up to element %d: %d\n", i + 1, min);
+        printf("Maximum value sequence up to element %d: %d\n", i + 1, max);
+    }
+}
+int main() {
+    int size;
+    printf("Enter the number of elements in the list: ");
+    scanf("%d", &size);
+
+    int arr[size];
+    printf("Enter the elements of the list:\n");
+    for (int i = 0; i < size; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    printMinMaxSequence(arr, size);
+
+    return 0;
+}
