@@ -1,0 +1,64 @@
+#include <stdio.h>
+#define MAX_ITEMS 100
+typedef struct {
+    int weight;
+    int value;
+    float ratio;
+} Item;
+void swap(Item *a, Item *b) {
+    Item temp = *a;
+    *a = *b;
+    *b = temp;
+}
+int partition(Item items[], int low, int high) {
+    float pivot = items[high].ratio;
+    int i = low - 1;
+    for (int j = low; j < high; j++) {
+        if (items[j].ratio > pivot) {
+            i++;
+            swap(&items[i], &items[j]);
+        }
+    }
+    swap(&items[i + 1], &items[high]);
+    return (i + 1);
+}
+void quickSort(Item items[], int low, int high) {
+    if (low < high) {
+        int pi = partition(items, low, high);
+        quickSort(items, low, pi - 1);
+        quickSort(items, pi + 1, high);
+    }
+}
+float fractionalKnapsack(Item items[], int n, int capacity) {
+    quickSort(items, 0, n - 1);
+    float totalValue = 0.0;
+    int currentWeight = 0;
+    for (int i = 0; i < n; i++) {
+        if (currentWeight + items[i].weight <= capacity) {
+            totalValue += items[i].value;
+            currentWeight += items[i].weight;
+        } else {
+            int remainingWeight = capacity - currentWeight;
+            totalValue += (items[i].value / (float)items[i].weight) * remainingWeight;
+            break;
+        }
+    }
+    return totalValue;
+}
+int main() {
+    Item items[MAX_ITEMS];
+    int n, capacity;
+    printf("Enter the number of items: ");
+    scanf("%d", &n);
+    printf("Enter the weight and value of each item:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Item %d: ", i + 1);
+        scanf("%d %d", &items[i].weight, &items[i].value);
+        items[i].ratio = (float)items[i].value / items[i].weight;
+    }
+    printf("Enter the capacity of knapsack: ");
+    scanf("%d", &capacity);
+    float maxValue = fractionalKnapsack(items, n, capacity);
+    printf("The maximum value that can be obtained = %.2f\n", maxValue);
+    return 0;
+}
