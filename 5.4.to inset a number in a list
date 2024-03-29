@@ -1,0 +1,39 @@
+#include <stdio.h>
+#define MAX_SIZE 100
+void insertNumber(int list[], int *size, int position, int number) {
+    if (*size >= MAX_SIZE) {
+        printf("List is full. Cannot insert more numbers.\n");
+        return;
+    }
+    if (position < 0 || position > *size) {
+        printf("Invalid position.\n");
+        return;
+    }
+    for (int i = *size; i > position; i--) {
+        list[i] = list[i - 1];
+    }
+    list[position] = number;
+    (*size)++;
+}
+int main() {
+    int list[MAX_SIZE];
+    int size = 0;
+    int position, number;
+    printf("Enter the size of the list: ");
+    scanf("%d", &size);
+    printf("Enter %d elements:\n", size);
+    for (int i = 0; i < size; i++) {
+        scanf("%d", &list[i]);
+    }
+    printf("Enter the position to insert the number: ");
+    scanf("%d", &position);
+    printf("Enter the number to insert: ");
+    scanf("%d", &number);
+    insertNumber(list, &size, position, number);
+    printf("List after insertion:\n");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", list[i]);
+    }
+    printf("\n");
+    return 0;
+}
