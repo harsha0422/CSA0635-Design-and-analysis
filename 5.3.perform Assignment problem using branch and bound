@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <limits.h>
+#define N 4
+int costMatrix[N][N] = {
+    {9, 11, 14, 17},
+    {6, 15, 13, 20},
+    {12, 7, 16, 10},
+    {5, 8, 10, 12}
+};
+int minCost = INT_MAX;
+int assignment[N];
+int minAssignment[N];
+void printAssignment() {
+    printf("Assignment: ");
+    for (int i = 0; i < N; i++) {
+        printf("(%d -> %d) ", i, minAssignment[i]);
+    }
+    printf("\n");
+}
+void branchAndBound(int worker, int costSoFar) {
+    if (worker == N) {
+        if (costSoFar < minCost) {
+            minCost = costSoFar;
+            for (int i = 0; i < N; i++) {
+                minAssignment[i] = assignment[i];
+            }
+        }
+        return;
+    }
+    for (int job = 0; job < N; job++) {
+        if (!assignment[job]) {
+            assignment[job] = 1;
+            branchAndBound(worker + 1, costSoFar + costMatrix[worker][job]);
+            assignment[job] = 0;
+        }
+    }
+}
+int main() {
+    printf("Cost Matrix:\n");
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%d\t", costMatrix[i][j]);
+        }
+        printf("\n");
+    }
+    branchAndBound(0, 0);
+    printf("\nMinimum Cost: %d\n", minCost);
+    printAssignment();
+    return 0;
+}
