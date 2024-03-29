@@ -1,0 +1,20 @@
+#include <stdio.h>
+#define MAX_CONTAINERS 100
+#define MAX_WEIGHT 5000
+int main() {
+    int numContainers, weight[MAX_CONTAINERS], totalWeight = 0;
+    printf("Enter the number of containers: ");
+    scanf("%d", &numContainers);
+    printf("Enter the weight of each container:\n");
+    for (int i = 0; i < numContainers; i++) {
+        printf("Container %d: ", i + 1);
+        scanf("%d", &weight[i]);
+        totalWeight += weight[i];
+    }
+    if (totalWeight > MAX_WEIGHT) {
+        printf("Total weight exceeds the maximum limit of %d.\n", MAX_WEIGHT);
+    } else {
+        printf("Total weight of all containers is %d.\n", totalWeight);
+    }
+    return 0;
+}
